@@ -9,7 +9,7 @@
 
 **Changes made:**
 
-* Modifiqué el archivo `accounts-service.yml` para cambiar el puerto de la instancia de `3333` a `2222`.
+* Modifiqué el archivo `accounts-service.yml` para cambiar el puerto de `3333` a `2222`.
 * Esta configuración externa permite que los servicios obtengan parámetros sin necesidad de recompilar, facilitando la escalabilidad y la resiliencia de los microservicios.
 
 **Why externalized configuration is useful:**
@@ -52,7 +52,7 @@ El Web Service también se registra en Eureka como `WEB-SERVICE`.
 
 
 * Al iniciar una segunda instancia del Accounts Service (puerto 2222), Eureka registra ambas instancias.
-* Eureka maneja múltiples instancias manteniendo información de cada una; el cliente puede usar cualquier instancia disponible para balancear la carga.
+* Eureka maneja múltiples instancias manteniendo información de cada una, el cliente puede usar cualquier instancia disponible para balancear la carga.
 * El client-side load balancing distribuye las peticiones entre instancias disponibles mediante round-robin o estrategias configurables, evitando sobrecargar una sola instancia.
 
 ---
