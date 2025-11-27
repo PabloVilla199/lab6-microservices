@@ -71,7 +71,7 @@ Inmediatamente después de detener la instancia de Accounts Service en el puerto
 
 
 * Eureka detecta fallos mediante heartbeats periódicos de cada instancia.
-* Tras la expiración del lease (aprox. 30 segundos), Eureka elimina la instancia muerta de su registro.
+* Tras la expiración del, Eureka elimina la instancia muerta de su registro.
 * Después de esto, todas las peticiones del Web Service son redirigidas a la instancia activa restante (puerto 2222).
 
 ---
