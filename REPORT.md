@@ -83,24 +83,21 @@ Inmediatamente después de detener la instancia de Accounts Service en el puerto
 
 * El Web Service se recupera porque Eureka ya no incluye la instancia caída en el registro y solo consulta la instancia activa restante.
 * La recuperación toma alrededor de 30-60 segundos, dependiendo del tiempo de expiración configurado.
-* El cache del cliente de Eureka permite que las llamadas se mantengan estables durante la transición, evitando interrupciones mayores.
+* La cache del cliente de Eureka permite que las llamadas se mantengan estables durante la transición, evitando interrupciones mayores.
 
 ---
 
 ## 7. Conclusions
 
-* He comprendido la arquitectura de microservicios y la importancia de separar responsabilidades en servicios independientes.
+* He entendido la arquitectura de microservicios y la importancia de separar responsabilidades en servicios independientes.
 * He aprendido a usar Eureka para el descubrimiento dinámico de servicios y la gestión de múltiples instancias.
-* He observado cómo el sistema maneja fallos, mostrando resiliencia y autocuración.
-* He encontrado desafíos en sincronizar los tiempos de registro y la expiración de instancias, solucionados al esperar los heartbeats y monitorear logs y dashboard.
+* He visto cómo el sistema maneja fallos, mostrando resiliencia y estabilidad.
 
 ---
 
 ## 8. AI Disclosure
 
 **AI Tools Used:** ChatGPT
-
 * Me ayudó a estructurar el informe y explicar los conceptos de microservicios y Eureka de manera clara.
-* Todo el trabajo práctico, se hicieron de forma manual.
 
 ---
