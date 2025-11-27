@@ -1,13 +1,22 @@
+
+---
+
 # Lab 6 Microservices - Project Report
 
 ## 1. Configuration Setup
 
-**Configuration Repository**: [Link to your forked repository]
+**Configuration Repository**: `https://github.com/PabloVilla199/lab6-microservices`
 
-Describe the changes you made to the configuration:
+**Changes made:**
 
-- What did you modify in `accounts-service.yml`?
-- Why is externalized configuration useful in microservices?
+* Modifiqué el archivo `accounts-service.yml` para cambiar el puerto de la instancia de `3333` a `2222`.
+* Esta configuración externa permite que los servicios obtengan parámetros sin necesidad de recompilar, facilitando la escalabilidad y la resiliencia de los microservicios.
+
+**Why externalized configuration is useful:**
+
+* Permite actualizar la configuración de servicios en ejecución sin reiniciar la aplicación.
+* Mejora la consistencia de parámetros en entornos distribuidos.
+* Facilita el versionado y control centralizado de configuraciones para múltiples servicios.
 
 ---
 
@@ -17,13 +26,12 @@ Describe the changes you made to the configuration:
 
 ![Accounts Registration Log](docs/screenshots/accounts-registration.png)
 
-Explain what happens during service registration.
+Cuando el Accounts Service se inicia, se registra automáticamente en Eureka mediante la información de (`ACCOUNTS-SERVICE`) y su puerto configurado. Eureka recibe el registro, almacena los metadatos y confirma con un estado `UP` que el servicio está disponible.
 
 ### Web Service Registration
 
-![Web Registration Log](docs/screenshots/web-registration.png)
 
-Explain how the web service discovers the accounts service.
+El Web Service también se registra en Eureka como `WEB-SERVICE`.
 
 ---
 
@@ -31,10 +39,10 @@ Explain how the web service discovers the accounts service.
 
 ![Eureka Dashboard](docs/screenshots/eureka-dashboard.png)
 
-Describe what the Eureka dashboard shows:
 
-- Which services are registered?
-- What information does Eureka track for each instance?
+* Muestra todos los servicios registrados en Eureka (`ACCOUNTS-SERVICE`, `WEB-SERVICE`, `CONFIGSERVER`).
+* Para cada instancia, se muestra: nombre de aplicación, puerto, estado (`UP`), dirección IP y tiempo de vida.
+* Permite monitorear la disponibilidad de cada servicio y el número de instancias activas.
 
 ---
 
@@ -42,11 +50,10 @@ Describe what the Eureka dashboard shows:
 
 ![Multiple Instances](docs/screenshots/multiple-instances.png)
 
-Answer the following questions:
 
-- What happens when you start a second instance of the accounts service?
-- How does Eureka handle multiple instances?
-- How does client-side load balancing work with multiple instances?
+* Al iniciar una segunda instancia del Accounts Service (puerto 2222), Eureka registra ambas instancias.
+* Eureka maneja múltiples instancias manteniendo información de cada una; el cliente puede usar cualquier instancia disponible para balancear la carga.
+* El client-side load balancing distribuye las peticiones entre instancias disponibles mediante round-robin o estrategias configurables, evitando sobrecargar una sola instancia.
 
 ---
 
@@ -56,16 +63,16 @@ Answer the following questions:
 
 ![Error Screenshot](docs/screenshots/failure-error.png)
 
-Describe what happens immediately after stopping the accounts service on port 3333.
+Inmediatamente después de detener la instancia de Accounts Service en el puerto 3333, las peticiones del Web Service fallan temporalmente con errores de conexión. Esto ocurre porque Eureka aún no ha detectado que la instancia está caída.
 
 ### Eureka Instance Removal
 
 ![Instance Removal](docs/screenshots/instance-removal.png)
 
-Explain how Eureka detects and removes the failed instance:
 
-- How long did it take for Eureka to remove the dead instance?
-- What mechanism does Eureka use to detect failures?
+* Eureka detecta fallos mediante heartbeats periódicos de cada instancia.
+* Tras la expiración del lease (aprox. 30 segundos), Eureka elimina la instancia muerta de su registro.
+* Después de esto, todas las peticiones del Web Service son redirigidas a la instancia activa restante (puerto 2222).
 
 ---
 
@@ -73,37 +80,27 @@ Explain how Eureka detects and removes the failed instance:
 
 ![Recovery State](docs/screenshots/recovery.png)
 
-Answer the following questions:
 
-- Why does the web service eventually recover?
-- How long did recovery take?
-- What role does client-side caching play in the recovery process?
+* El Web Service se recupera porque Eureka ya no incluye la instancia caída en el registro y solo consulta la instancia activa restante.
+* La recuperación toma alrededor de 30-60 segundos, dependiendo del tiempo de expiración configurado.
+* El cache del cliente de Eureka permite que las llamadas se mantengan estables durante la transición, evitando interrupciones mayores.
 
 ---
 
 ## 7. Conclusions
 
-Summarize what you learned about:
-
-- Microservices architecture
-- Service discovery with Eureka
-- System resilience and self-healing
-- Challenges you encountered and how you solved them
+* He comprendido la arquitectura de microservicios y la importancia de separar responsabilidades en servicios independientes.
+* He aprendido a usar Eureka para el descubrimiento dinámico de servicios y la gestión de múltiples instancias.
+* He observado cómo el sistema maneja fallos, mostrando resiliencia y autocuración.
+* He encontrado desafíos en sincronizar los tiempos de registro y la expiración de instancias, solucionados al esperar los heartbeats y monitorear logs y dashboard.
 
 ---
 
 ## 8. AI Disclosure
 
-**Did you use AI tools?** (ChatGPT, Copilot, Claude, etc.)
+**AI Tools Used:** ChatGPT
 
-- If YES: Which tools? What did they help with? What did you do yourself?
-- If NO: Write "No AI tools were used."
-
-**Important**: Explain your own understanding of microservices patterns and Eureka behavior, even if AI helped you write parts of this report.
+* Me ayudó a estructurar el informe y explicar los conceptos de microservicios y Eureka de manera clara.
+* Todo el trabajo práctico, se hicieron de forma manual.
 
 ---
-
-## Additional Notes
-
-Any other observations or comments about the assignment.
-
